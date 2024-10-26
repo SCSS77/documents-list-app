@@ -1,6 +1,8 @@
-import { renderDocumentList } from '../components/DocumentList';
+import { renderDocumentList } from '../components/documentList';
 import { renderDocumentForm } from '../components/documentForm';
 import { fetchDocuments } from '../services/api';
+import { useWebSocket } from '../utils/useWebSocket';
+import { showNotification } from '../components/notification';
 
 export async function renderApp(): Promise<HTMLElement> {
     const documents = await fetchDocuments();
@@ -20,6 +22,11 @@ export async function renderApp(): Promise<HTMLElement> {
     
     appDiv.appendChild(form);
     appDiv.appendChild(renderDocumentList(documents));
+
+    const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
+        const message = `New document created: ${data.DocumentTitle} by ${data.UserName}`;
+        showNotification(message, 'info');
+    });
 
     return appDiv;
 }
