@@ -1,13 +1,17 @@
 export function renderDocumentForm(setDocuments: (newDocs: any[]) => void): HTMLElement {
     const form = document.createElement('form');
+    form.classList.add('document-form');
+
     const input = document.createElement('input');
     input.type = 'text';
     input.placeholder = 'Document Title';
     input.required = true;
+    input.classList.add('document-input');
 
     const button = document.createElement('button');
     button.type = 'submit';
-    button.textContent = 'Create Document';
+    button.textContent = 'Add document';
+    button.classList.add('add-document');
 
     form.appendChild(input);
     form.appendChild(button);

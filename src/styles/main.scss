@@ -1,0 +1,119 @@
+// Variables de colores y tipografía
+$primary-color: #1c2530;
+$secondary-color: #6c757d;
+$background-color: #f7f9fc;
+$text-color: #333;
+$highlight-color: #2e5bff;
+$border-color: #d9e2ef;
+
+body {
+  background-color: $background-color;
+  font-family: Arial, sans-serif;
+  color: $text-color;
+}
+
+// Estilos generales de la página
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: $primary-color;
+  margin-bottom: 1rem;
+}
+
+// Barra de notificaciones
+.notification-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+
+  .notification {
+    background-color: $highlight-color;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+// Filtros de la lista
+.sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  
+  .sort-by {
+    font-size: 0.875rem;
+    color: $secondary-color;
+  }
+
+  .select {
+    color: $highlight-color;
+    cursor: pointer;
+  }
+  
+  .view-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+// Estilos de la lista de documentos
+.document-list {
+  .document-item {
+    background-color: white;
+    border: 1px solid $border-color;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+
+    display: flex;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    .document-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: $primary-color;
+      margin-bottom: 0.5rem;
+    }
+
+    .document-version {
+      font-size: 0.875rem;
+      color: $secondary-color;
+    }
+
+    .document-contributors,
+    .document-attachments {
+      font-size: 0.875rem;
+      color: $secondary-color;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Botón para agregar documentos
+.add-document {
+  display: block;
+  color: $highlight-color;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

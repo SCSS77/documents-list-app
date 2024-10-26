@@ -7,4 +7,5 @@ export interface Document {
     ID: number;
     Title: string;
     Contributors: Contributor[];
+    Version: string;
 }

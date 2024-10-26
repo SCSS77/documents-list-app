@@ -8,23 +8,26 @@ export async function renderApp(): Promise<HTMLElement> {
     const documents = await fetchDocuments();
 
     const appDiv = document.createElement('div');
+    appDiv.classList.add('container');
+
     const title = document.createElement('h1');
-    title.textContent = 'Documents List';
+    title.classList.add('page-title');
+    title.textContent = 'Documents';
 
     appDiv.appendChild(title);
-    
+
     const form = renderDocumentForm((newDocs) => {
-        const existingList = appDiv.querySelector('ul');
+        const existingList = appDiv.querySelector('.document-list');
         if (existingList) {
             appDiv.replaceChild(renderDocumentList(newDocs), existingList);
         }
     });
-    
+
     appDiv.appendChild(form);
     appDiv.appendChild(renderDocumentList(documents));
 
     const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
-        const message = `New document created: ${data.DocumentTitle} by ${data.UserName}`;
+        const message = `New document added: ${data.DocumentTitle} by ${data.UserName}`;
         showNotification(message, 'info');
     });
 
