@@ -4,8 +4,11 @@ export interface Contributor {
 }
 
 export interface Document {
-    ID: number;
+    ID: string;
+    CreatedAt: string;
+    UpdatedAt: string;
     Title: string;
-    Contributors: Contributor[];
+    Attachments: string[];
+    Contributors: { ID: string; Name: string }[];
     Version: string;
 }
