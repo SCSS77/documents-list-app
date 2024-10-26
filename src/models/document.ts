@@ -1,17 +1,10 @@
 export interface Contributor {
-    name: string;
-}
-
-export interface Attachment {
-    name: string;
-    url: string;
+    ID: number;
+    Name: string;
 }
 
 export interface Document {
-    id: string;
-    name: string;
-    contributors: Contributor[];
-    version: number;
-    attachments: Attachment[];
-    createdAt: Date;
+    ID: number;
+    Title: string;
+    Contributors: Contributor[];
 }
