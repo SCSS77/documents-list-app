@@ -1,4 +1,4 @@
-// Variables de colores y tipografía
+// Vars
 $primary-color: #1c2530;
 $secondary-color: #6c757d;
 $background-color: #f7f9fc;
@@ -12,7 +12,7 @@ body {
   color: $text-color;
 }
 
-// Estilos generales de la página
+// General
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -26,7 +26,7 @@ body {
   margin-bottom: 1rem;
 }
 
-// Barra de notificaciones
+// Notifications
 .notification-bar {
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@ body {
   }
 }
 
-// Filtros de la lista
+// Filters
 .sort-bar {
   display: flex;
   align-items: center;
@@ -66,7 +66,7 @@ body {
   }
 }
 
-// Estilos de la lista de documentos
+// Documents List
 .document-list {
   .document-item {
     background-color: white;
@@ -103,7 +103,7 @@ body {
   }
 }
 
-// Botón para agregar documentos
+// Button
 .add-document {
   display: block;
   color: $highlight-color;
