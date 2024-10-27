@@ -7,6 +7,9 @@ export function renderDocumentList(
     const container = document.createElement('div');
     container.classList.add('document-list');
 
+    const controls = document.createElement('div');
+    controls.classList.add('controls');
+
     const sortBar = document.createElement('div');
     sortBar.classList.add('sort-bar');
 
@@ -46,7 +49,7 @@ export function renderDocumentList(
 
     customSelect.appendChild(options);
     sortBar.appendChild(customSelect);
-    container.appendChild(sortBar);
+    controls.appendChild(sortBar);
 
     selectedOption.addEventListener('click', () => {
         customSelect.classList.toggle('open');
@@ -60,25 +63,65 @@ export function renderDocumentList(
         });
     });
 
-    const header = document.createElement('div');
-    header.classList.add('document-header');
+    const viewToggle = document.createElement('div');
+    viewToggle.classList.add('view-toggle');
 
-    const nameHeader = document.createElement('div');
-    nameHeader.textContent = 'Name';
-    nameHeader.classList.add('column-header');
+    const listViewButton = document.createElement('button');
+    listViewButton.classList.add('view-button', 'active');
+    listViewButton.innerHTML = '<i class="fas fa-list"></i>';
+    viewToggle.appendChild(listViewButton);
 
-    const contributorsHeader = document.createElement('div');
-    contributorsHeader.textContent = 'Contributors';
-    contributorsHeader.classList.add('column-header');
+    const gridViewButton = document.createElement('button');
+    gridViewButton.classList.add('view-button');
+    gridViewButton.innerHTML = '<i class="fas fa-th"></i>';
+    viewToggle.appendChild(gridViewButton);
 
-    const attachmentsHeader = document.createElement('div');
-    attachmentsHeader.textContent = 'Attachments';
-    attachmentsHeader.classList.add('column-header');
+    controls.appendChild(viewToggle);
+    container.appendChild(controls);
 
-    header.appendChild(nameHeader);
-    header.appendChild(contributorsHeader);
-    header.appendChild(attachmentsHeader);
-    container.appendChild(header);
+    const documentsContainer = document.createElement('div');
+    documentsContainer.classList.add('documents-container', 'list-view');
+
+    const renderHeader = (isGridView: boolean) => {
+        const headerContainer = document.createElement('div');
+        headerContainer.classList.add('header-container');
+    
+        const header = document.createElement('div');
+        header.classList.add('document-header');
+    
+        const nameHeader = document.createElement('div');
+        nameHeader.textContent = 'Name';
+        nameHeader.classList.add('column-header');
+    
+        const contributorsHeader = document.createElement('div');
+        contributorsHeader.textContent = 'Contributors';
+        contributorsHeader.classList.add('column-header');
+    
+        const attachmentsHeader = document.createElement('div');
+        attachmentsHeader.textContent = 'Attachments';
+        attachmentsHeader.classList.add('column-header');
+    
+        header.appendChild(nameHeader);
+        header.appendChild(contributorsHeader);
+        header.appendChild(attachmentsHeader);
+    
+        headerContainer.appendChild(header);
+    
+        if (isGridView) {
+            const secondHeader = document.createElement('div');
+            secondHeader.classList.add('document-header');
+    
+            secondHeader.appendChild(nameHeader.cloneNode(true));
+            secondHeader.appendChild(contributorsHeader.cloneNode(true));
+            secondHeader.appendChild(attachmentsHeader.cloneNode(true));
+    
+            headerContainer.appendChild(secondHeader);
+        }
+    
+        container.appendChild(headerContainer);
+    };    
+
+    renderHeader(false);
 
     documents.forEach((doc) => {
         const card = document.createElement('div');
@@ -91,12 +134,9 @@ export function renderDocumentList(
         title.classList.add('document-name');
         title.textContent = doc.Title;
 
-        const version = document.createElement('div');
-        version.classList.add('document-version');
-        version.textContent = `Version ${doc.Version}`;
-
-        nameContainer.appendChild(title);
-        nameContainer.appendChild(version);
+        const versionText = document.createElement('div');
+        versionText.classList.add('document-version');
+        versionText.textContent = `Version: ${doc.Version}`;
 
         const contributors = document.createElement('div');
         contributors.classList.add('document-contributors');
@@ -106,11 +146,36 @@ export function renderDocumentList(
         attachments.classList.add('document-attachments');
         attachments.innerHTML = doc.Attachments.map((a) => `<div>${a}</div>`).join('');
 
+        nameContainer.appendChild(title);
+        nameContainer.appendChild(versionText);
         card.appendChild(nameContainer);
         card.appendChild(contributors);
         card.appendChild(attachments);
 
-        container.appendChild(card);
+        documentsContainer.appendChild(card);
+    });
+
+    container.appendChild(documentsContainer);
+
+    const updateView = (isGridView: boolean) => {
+        documentsContainer.classList.toggle('grid-view', isGridView);
+        documentsContainer.classList.toggle('list-view', !isGridView);
+        container.innerHTML = '';
+        container.appendChild(controls);
+        renderHeader(isGridView);
+        container.appendChild(documentsContainer);
+    };
+
+    listViewButton.addEventListener('click', () => {
+        updateView(false);
+        listViewButton.classList.add('active');
+        gridViewButton.classList.remove('active');
+    });
+
+    gridViewButton.addEventListener('click', () => {
+        updateView(true);
+        gridViewButton.classList.add('active');
+        listViewButton.classList.remove('active');
     });
 
     return container;

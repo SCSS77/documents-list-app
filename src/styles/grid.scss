@@ -1,0 +1,46 @@
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.view-toggle {
+    margin-left: auto;
+
+    button {
+        background: transparent;
+        color: #999;
+        border: none;
+        margin-right: 8px;
+        padding: 0;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &:focus, &:focus-visible {
+            outline: none;
+        }
+
+        &.active {
+            color: #333;
+        }
+    }
+}
+
+.documents-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.document-item {
+    flex: 1 1 calc(33.333% - 10px);
+}
+
+.list-view .document-item {
+    flex: 1 1 100%;
+}
+
+.grid-view .document-item {
+    flex: 1 1 calc(33.333% - 10px);
+}
