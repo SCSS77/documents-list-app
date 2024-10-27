@@ -1,8 +1,64 @@
 import { Document } from '../models/document';
 
-export function renderDocumentList(documents: Document[]): HTMLElement {
+export function renderDocumentList(
+    documents: Document[],
+    onSort: (criteria: 'Title' | 'Version' | 'CreatedAt') => void
+): HTMLElement {
     const container = document.createElement('div');
     container.classList.add('document-list');
+
+    const sortBar = document.createElement('div');
+    sortBar.classList.add('sort-bar');
+
+    const sortLabel = document.createElement('span');
+    sortLabel.textContent = 'Sort by:';
+    sortLabel.classList.add('sort-by');
+    sortBar.appendChild(sortLabel);
+
+    const customSelect = document.createElement('div');
+    customSelect.classList.add('custom-select');
+
+    const selectedOption = document.createElement('div');
+    selectedOption.classList.add('selected-option');
+    selectedOption.textContent = 'Select one...';
+    customSelect.appendChild(selectedOption);
+
+    const options = document.createElement('div');
+    options.classList.add('options');
+
+    const optionTitle = document.createElement('div');
+    optionTitle.classList.add('option');
+    optionTitle.textContent = 'Name';
+    optionTitle.dataset.value = 'Title';
+    options.appendChild(optionTitle);
+
+    const optionVersion = document.createElement('div');
+    optionVersion.classList.add('option');
+    optionVersion.textContent = 'Version';
+    optionVersion.dataset.value = 'Version';
+    options.appendChild(optionVersion);
+
+    const optionDate = document.createElement('div');
+    optionDate.classList.add('option');
+    optionDate.textContent = 'Date';
+    optionDate.dataset.value = 'CreatedAt';
+    options.appendChild(optionDate);
+
+    customSelect.appendChild(options);
+    sortBar.appendChild(customSelect);
+    container.appendChild(sortBar);
+
+    selectedOption.addEventListener('click', () => {
+        customSelect.classList.toggle('open');
+    });
+
+    options.childNodes.forEach(option => {
+        option.addEventListener('click', () => {
+            selectedOption.textContent = (option as HTMLElement).textContent || 'Select one...';
+            customSelect.classList.remove('open');
+            onSort((option as HTMLElement).dataset.value as 'Title' | 'Version' | 'CreatedAt');
+        });
+    });
 
     const header = document.createElement('div');
     header.classList.add('document-header');
@@ -53,7 +109,7 @@ export function renderDocumentList(documents: Document[]): HTMLElement {
         card.appendChild(nameContainer);
         card.appendChild(contributors);
         card.appendChild(attachments);
-        
+
         container.appendChild(card);
     });
 
