@@ -43,4 +43,5 @@
 
 .grid-view .document-item {
     flex: 1 1 calc(33.333% - 10px);
+    max-width: calc(45% - 5px);
 }
