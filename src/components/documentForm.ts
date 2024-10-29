@@ -1,6 +1,5 @@
-export function renderDocumentForm(setDocuments: (newDocs: any[]) => void): HTMLElement {
+export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: any[]) => any[]) => void): HTMLElement {
     const form = document.createElement('form');
-    
     const addButton = document.createElement('button');
     addButton.type = 'button';
     addButton.textContent = '+ Add Document';
@@ -32,10 +31,7 @@ export function renderDocumentForm(setDocuments: (newDocs: any[]) => void): HTML
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const newDoc = { ID: Date.now(), Title: input.value, Contributors: [] };
-        
-        const updatedDocuments = [...(setDocuments as any), newDoc];
-        setDocuments(updatedDocuments);
-
+        setDocuments((currentDocs) => [...(currentDocs || []), newDoc]);
         input.value = '';
         inputContainer.classList.add('hidden');
         addButton.classList.remove('hidden');

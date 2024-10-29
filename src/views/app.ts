@@ -7,7 +7,8 @@ import { Document } from '../models/document';
 
 export async function renderApp(): Promise<HTMLElement> {
     let documents: Document[] = await fetchDocuments();
-    
+    documents = documents || [];
+
     const appDiv = document.createElement('div');
     const title = document.createElement('h1');
     title.classList.add('page-title');
@@ -30,9 +31,9 @@ export async function renderApp(): Promise<HTMLElement> {
     let list = renderDocumentList(documents, sortDocuments);
     appDiv.appendChild(list);
 
-    const form = renderDocumentForm((newDocs) => {
-        documents = newDocs;
-        const newList = renderDocumentList(newDocs, sortDocuments);
+    const form = renderDocumentForm((updateFunc) => {
+        documents = updateFunc(documents);
+        const newList = renderDocumentList(documents, sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
     });

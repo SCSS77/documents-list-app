@@ -55,11 +55,12 @@ export function renderDocumentList(
         customSelect.classList.toggle('open');
     });
 
-    options.childNodes.forEach(option => {
+    options.querySelectorAll('.option').forEach(option => {
         option.addEventListener('click', () => {
-            selectedOption.textContent = (option as HTMLElement).textContent || 'Select one...';
+            const optionElement = option as HTMLElement;
+            selectedOption.textContent = optionElement.textContent || 'Select one...';
             customSelect.classList.remove('open');
-            onSort((option as HTMLElement).dataset.value as 'Title' | 'Version' | 'CreatedAt');
+            onSort(optionElement.dataset.value as 'Title' | 'Version' | 'CreatedAt');
         });
     });
 
@@ -82,98 +83,68 @@ export function renderDocumentList(
     const documentsContainer = document.createElement('div');
     documentsContainer.classList.add('documents-container', 'list-view');
 
-    const renderHeader = (isGridView: boolean) => {
-        const headerContainer = document.createElement('div');
-        headerContainer.classList.add('header-container');
-    
-        const header = document.createElement('div');
-        header.classList.add('document-header');
-    
-        const nameHeader = document.createElement('div');
-        nameHeader.textContent = 'Name';
-        nameHeader.classList.add('column-header');
-    
-        const contributorsHeader = document.createElement('div');
-        contributorsHeader.textContent = 'Contributors';
-        contributorsHeader.classList.add('column-header');
-    
-        const attachmentsHeader = document.createElement('div');
-        attachmentsHeader.textContent = 'Attachments';
-        attachmentsHeader.classList.add('column-header');
-    
-        header.appendChild(nameHeader);
-        header.appendChild(contributorsHeader);
-        header.appendChild(attachmentsHeader);
-    
-        headerContainer.appendChild(header);
-    
-        if (isGridView) {
-            const secondHeader = document.createElement('div');
-            secondHeader.classList.add('document-header');
-    
-            secondHeader.appendChild(nameHeader.cloneNode(true));
-            secondHeader.appendChild(contributorsHeader.cloneNode(true));
-            secondHeader.appendChild(attachmentsHeader.cloneNode(true));
-    
-            headerContainer.appendChild(secondHeader);
-        }
-    
-        container.appendChild(headerContainer);
-    };    
+    const headerContainer = document.createElement('div');
+    headerContainer.classList.add('header-container');
 
-    renderHeader(false);
+    const header = document.createElement('div');
+    header.classList.add('document-header');
+
+    ['Name', 'Contributors', 'Attachments'].forEach((text) => {
+        const columnHeader = document.createElement('div');
+        columnHeader.classList.add('column-header');
+        columnHeader.textContent = text;
+        header.appendChild(columnHeader);
+    });
+
+    headerContainer.appendChild(header);
+    container.appendChild(headerContainer);
+    container.appendChild(documentsContainer);
 
     documents.forEach((doc) => {
         const card = document.createElement('div');
         card.classList.add('document-item');
-
+    
         const nameContainer = document.createElement('div');
         nameContainer.classList.add('document-name-version');
-
+    
         const title = document.createElement('div');
         title.classList.add('document-name');
         title.textContent = doc.Title;
-
+    
         const versionText = document.createElement('div');
         versionText.classList.add('document-version');
         versionText.textContent = `Version: ${doc.Version}`;
-
+    
         const contributors = document.createElement('div');
         contributors.classList.add('document-contributors');
-        contributors.innerHTML = doc.Contributors.map((c) => `<div>${c.Name}</div>`).join('');
-
+        contributors.innerHTML = (doc.Contributors || []).map((c) => `<div>${c.Name}</div>`).join('');
+    
         const attachments = document.createElement('div');
         attachments.classList.add('document-attachments');
-        attachments.innerHTML = doc.Attachments.map((a) => `<div>${a}</div>`).join('');
-
+        attachments.innerHTML = (doc.Attachments || []).map((a) => `<div>${a}</div>`).join('');
+    
         nameContainer.appendChild(title);
         nameContainer.appendChild(versionText);
         card.appendChild(nameContainer);
         card.appendChild(contributors);
         card.appendChild(attachments);
-
+    
         documentsContainer.appendChild(card);
     });
 
-    container.appendChild(documentsContainer);
-
-    const updateView = (isGridView: boolean) => {
+    const toggleView = (isGridView: boolean) => {
         documentsContainer.classList.toggle('grid-view', isGridView);
         documentsContainer.classList.toggle('list-view', !isGridView);
-        container.innerHTML = '';
-        container.appendChild(controls);
-        renderHeader(isGridView);
-        container.appendChild(documentsContainer);
     };
 
     listViewButton.addEventListener('click', () => {
-        updateView(false);
+        toggleView(false);
         listViewButton.classList.add('active');
         gridViewButton.classList.remove('active');
     });
 
     gridViewButton.addEventListener('click', () => {
-        updateView(true);
+        toggleView(true);
         gridViewButton.classList.add('active');
         listViewButton.classList.remove('active');
     });
