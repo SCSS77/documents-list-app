@@ -44,12 +44,12 @@ export async function renderApp(): Promise<HTMLElement> {
         appDiv.replaceChild(newList, list);
         list = newList;
 
-        showNotification(`Document added: ${documents[documents.length - 1].Title}`, 'success');
+        showNotification(`Document added: <br>${documents[documents.length - 1].Title} by Current User`, 'success');
     }, 'Current User');
     appDiv.appendChild(form);
 
     const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
-        const message = `New document created: ${data.DocumentTitle} by ${data.UserName}`;
+        const message = `New document created: <br>${data.DocumentTitle} by ${data.UserName}`;
         showNotification(message, 'info');
     });
 

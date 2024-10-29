@@ -43,7 +43,7 @@ export function showNotification(message: string, type: 'info' | 'success' | 'er
 
     const notificationMessage = document.createElement('div');
     notificationMessage.classList.add('notification-message');
-    notificationMessage.textContent = message;
+    notificationMessage.innerHTML = message;
 
     notificationBox.appendChild(iconContainer);
     notificationBox.appendChild(notificationMessage);

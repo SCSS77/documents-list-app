@@ -7,6 +7,7 @@
     flex-direction: column;
     gap: 10px;
     max-width: 300px;
+    width: 100%;
     z-index: 1000;
 }
 
@@ -56,6 +57,7 @@
     font-size: 0.9rem;
     color: #555;
     padding-left: 12px;
+    text-rendering: optimizeLegibility;
 }
 
 @keyframes fade-in {
