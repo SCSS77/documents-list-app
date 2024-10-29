@@ -103,32 +103,32 @@ export function renderDocumentList(
     documents.forEach((doc) => {
         const card = document.createElement('div');
         card.classList.add('document-item');
-    
+
         const nameContainer = document.createElement('div');
         nameContainer.classList.add('document-name-version');
-    
+
         const title = document.createElement('div');
         title.classList.add('document-name');
         title.textContent = doc.Title;
-    
+
         const versionText = document.createElement('div');
         versionText.classList.add('document-version');
         versionText.textContent = `Version: ${doc.Version}`;
-    
+
         const contributors = document.createElement('div');
         contributors.classList.add('document-contributors');
-        contributors.innerHTML = (doc.Contributors || []).map((c) => `<div>${c.Name}</div>`).join('');
-    
+        contributors.innerHTML = doc.Contributors.map((c) => `<div>${c.Name}</div>`).join('');
+
         const attachments = document.createElement('div');
         attachments.classList.add('document-attachments');
-        attachments.innerHTML = (doc.Attachments || []).map((a) => `<div>${a}</div>`).join('');
-    
+        attachments.innerHTML = doc.Attachments.map((a) => `<div>${a}</div>`).join('');
+
         nameContainer.appendChild(title);
         nameContainer.appendChild(versionText);
         card.appendChild(nameContainer);
         card.appendChild(contributors);
         card.appendChild(attachments);
-    
+
         documentsContainer.appendChild(card);
     });
 

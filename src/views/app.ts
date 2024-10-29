@@ -36,7 +36,7 @@ export async function renderApp(): Promise<HTMLElement> {
         const newList = renderDocumentList(documents, sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
-    });
+    }, 'Current User');
     appDiv.appendChild(form);
 
     const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
