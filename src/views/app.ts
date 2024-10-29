@@ -4,10 +4,15 @@ import { fetchDocuments } from '../services/api';
 import { useWebSocket } from '../utils/useWebSocket';
 import { showNotification } from '../components/notification';
 import { Document } from '../models/document';
+import { saveDocumentsToLocalStorage, getDocumentsFromLocalStorage } from '../utils/localStorage';
 
 export async function renderApp(): Promise<HTMLElement> {
-    let documents: Document[] = await fetchDocuments();
-    documents = documents || [];
+    let documents: Document[] = getDocumentsFromLocalStorage();
+    if (documents.length === 0) {
+        documents = await fetchDocuments();
+        documents = documents || [];
+        saveDocumentsToLocalStorage(documents);
+    }
 
     const appDiv = document.createElement('div');
     const title = document.createElement('h1');
@@ -33,6 +38,7 @@ export async function renderApp(): Promise<HTMLElement> {
 
     const form = renderDocumentForm((updateFunc) => {
         documents = updateFunc(documents);
+        saveDocumentsToLocalStorage(documents);
         const newList = renderDocumentList(documents, sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
