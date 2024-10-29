@@ -37,12 +37,14 @@ export async function renderApp(): Promise<HTMLElement> {
     appDiv.appendChild(list);
 
     const form = renderDocumentForm((updateFunc) => {
-        documents = updateFunc(documents);
+        const newDocument = updateFunc(documents);
+        documents = newDocument;
         saveDocumentsToLocalStorage(documents);
         const newList = renderDocumentList(documents, sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
-        showNotification('Document added successfully!', 'success');
+
+        showNotification(`Document added: ${documents[documents.length - 1].Title}`, 'success');
     }, 'Current User');
     appDiv.appendChild(form);
 

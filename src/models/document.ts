@@ -1,14 +1,13 @@
 export interface Contributor {
-    ID: number;
+    ID: string;
     Name: string;
 }
 
 export interface Document {
     ID: string;
-    CreatedAt: string;
-    UpdatedAt: string;
     Title: string;
-    Attachments: string[];
-    Contributors: { ID: string; Name: string }[];
     Version: string;
+    Contributors: Contributor[];
+    Attachments: any[];
+    CreatedAt: string;
 }

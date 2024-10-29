@@ -1,4 +1,6 @@
-export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: any[]) => any[]) => void, currentUserName: string): HTMLElement {
+import { Document } from '../models/document';
+
+export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: Document[]) => Document[]) => void, currentUserName: string): HTMLElement {
     const form = document.createElement('form');
     const addButton = document.createElement('button');
     addButton.type = 'button';
@@ -30,7 +32,14 @@ export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: any[
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const newDoc = { ID: Date.now(), Title: input.value, Version: '1.0', Contributors: [{ Name: currentUserName }], Attachments: [] };
+        const newDoc: Document = {
+            ID: Date.now().toString(),
+            Title: input.value,
+            Version: '1.0',
+            Contributors: [{ ID: Date.now().toString(), Name: currentUserName }],
+            Attachments: [],
+            CreatedAt: new Date().toISOString()
+        };
         setDocuments((currentDocs) => [...(currentDocs || []), newDoc]);
         input.value = '';
         inputContainer.classList.add('hidden');
