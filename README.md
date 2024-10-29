@@ -65,19 +65,37 @@ npm test
 ```
 This will run all unit and integration tests to ensure the correctness of the application.
 
-### Libraries Used
-- **Lodash:** For utility functions.
-- **Axios:** For making HTTP requests (if applicable).
-- **Moment.js:** For date formatting (if applicable).
-
 ## Server Integration
 
-### Data Sources
-The application integrates with the following data sources:
-- **JSON API:** For fetching document data.
-- **WebSocket:** For receiving real-time notifications regarding document creation.
+### Local Server Setup
+To access the testing server that provides document data, follow these steps:
 
-Make sure to set up and integrate with the testing server found in the `server` directory.
+1. **Clone the Server Repository:**
+   ```bash
+   git clone https://github.com/holdedhub/careers/tree/main/challenges/frontend/server
+   cd server
+   ```
+
+2. **Install Golang:**
+   Make sure you have the Golang runtime installed on your machine. You can download it from `https://go.dev/dl`.   
+
+3. **Run the Server:**
+Once you have Golang installed, run the following command in the server directory:
+
+   ```bash
+   go run server.go
+   ```
+By default, the server will listen on http://localhost:8080. If you need to change the address, you can use the -addr option:
+
+   ```bash
+   go run server.go -addr localhost:9090
+   ```
+
+4. **Access the API:**
+   Once the server is running, you can make requests to the document API at `http://localhost:8080/documents`.
+
+5. **Real-Time Notifications:**
+   Connect to the WebSocket to receive notifications about new documents created by other users at `ws://localhost:8080/notifications`.   
 
 ### Example API Calls
 - **Fetch Documents:**
@@ -100,4 +118,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Conclusion
 
-This application has been developed with maintainability and scalability in mind. We aim for well-organized code and thorough testing practices to ensure a robust solution. Thank you for your interest in this project!
+This application has been developed with maintainability and scalability in mind. We aim for well-organized code and thorough testing practices to ensure a robust solution. Thank you for your interest in this project!.

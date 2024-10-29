@@ -23,7 +23,7 @@ export const useWebSocket = (url: string, onMessage: (data: any) => void): (() =
     const debouncedOnMessage = debounce((event: MessageEvent) => {
         const data = JSON.parse(event.data);
         onMessage(data);
-    }, 500); // Ajusta el tiempo de debounce según tus necesidades
+    }, 500);
 
     socket.onmessage = debouncedOnMessage;
 
