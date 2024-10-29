@@ -112,10 +112,6 @@ While no frameworks such as React or Angular are used, third-party libraries may
 
 Contributions are welcome! Please fork the repository and submit a pull request with your changes. Be sure to follow the code style and testing practices used in the project.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
 ## Conclusion
 
 This application has been developed with maintainability and scalability in mind. We aim for well-organized code and thorough testing practices to ensure a robust solution. Thank you for your interest in this project!.
