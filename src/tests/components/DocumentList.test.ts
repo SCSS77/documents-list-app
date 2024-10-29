@@ -1,5 +1,5 @@
-import { renderDocumentList } from '../components/documentList';
-import { Document } from '../models/document';
+import { renderDocumentList } from "../../components/documentList";
+import { Document } from '../../models/document';
 
 describe('renderDocumentList', () => {
     const sortDocuments = jest.fn();

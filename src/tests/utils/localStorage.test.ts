@@ -1,5 +1,5 @@
-import { saveDocumentsToLocalStorage, getDocumentsFromLocalStorage } from '../utils/localStorage';
-import { Document } from '../models/document';
+import { saveDocumentsToLocalStorage, getDocumentsFromLocalStorage } from '../../utils/localStorage';
+import { Document } from '../../models/document';
 
 describe('LocalStorage Utilities', () => {
     const documentKey = 'documents';
