@@ -135,6 +135,7 @@ export function renderDocumentList(
     const toggleView = (isGridView: boolean) => {
         documentsContainer.classList.toggle('grid-view', isGridView);
         documentsContainer.classList.toggle('list-view', !isGridView);
+        headerContainer.style.display = isGridView ? 'none' : 'block';
     };
 
     listViewButton.addEventListener('click', () => {

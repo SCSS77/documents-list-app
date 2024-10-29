@@ -42,6 +42,20 @@
 }
 
 .grid-view .document-item {
-    flex: 1 1 calc(33.333% - 10px);
-    max-width: calc(45% - 5px);
+    flex: 1 1 calc(33.333% - 55px);
+    flex-wrap: wrap;
+    max-width: calc(33.333% - 55px);
+
+    .document-name-version,
+    .document-name-version .document-name, 
+    .document-contributors, 
+    .document-attachments {
+        flex: 0 0 100%;
+        text-align: center;
+        width: 100%;
+    }
+
+    .document-contributors {
+        margin: 15px 0;
+    }
 }
