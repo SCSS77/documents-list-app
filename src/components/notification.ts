@@ -1,4 +1,11 @@
-export function showNotification(message: string, type: 'success' | 'error' | 'info' = 'info'): HTMLElement {
+let notificationCount = 0;
+const maxNotifications = 1;
+const activeNotifications: number[] = [];
+
+export function showNotification(message: string, type: 'info' | 'success' | 'error' = 'info') {
+    notificationCount++;
+    activeNotifications.push(notificationCount);
+
     let container = document.querySelector('.notification-container');
     if (!container) {
         container = document.createElement('div');
@@ -6,18 +13,50 @@ export function showNotification(message: string, type: 'success' | 'error' | 'i
         document.body.appendChild(container);
     }
 
-    const notification = document.createElement('div');
-    notification.classList.add('notification', type);
-    notification.textContent = message;
+    if (container.childElementCount >= maxNotifications) {
+        const firstChild = container.firstElementChild;
+        if (firstChild) {
+            const firstNotificationNumber = activeNotifications.shift();
+            if (firstNotificationNumber !== undefined) {
+                firstChild.classList.add('fade-out');
+                firstChild.addEventListener('animationend', () => {
+                    firstChild.remove();
+                });
+            }
+        }
+    }
 
-    container.appendChild(notification);
+    const notificationBox = document.createElement('div');
+    notificationBox.classList.add('notification-box', type);
+
+    const iconContainer = document.createElement('div');
+    iconContainer.classList.add('icon-container');
+
+    const notificationIcon = document.createElement('span');
+    notificationIcon.classList.add('notification-icon', 'fas', 'fa-bell');
+    iconContainer.appendChild(notificationIcon);
+
+    const countElement = document.createElement('span');
+    countElement.classList.add('notification-count');
+    countElement.textContent = `${notificationCount}`;
+    iconContainer.appendChild(countElement);
+
+    const notificationMessage = document.createElement('div');
+    notificationMessage.classList.add('notification-message');
+    notificationMessage.textContent = message;
+
+    notificationBox.appendChild(iconContainer);
+    notificationBox.appendChild(notificationMessage);
+    
+    container.appendChild(notificationBox);
 
     setTimeout(() => {
-        notification.classList.add('fade-out');
-        notification.addEventListener('transitionend', () => {
-            notification.remove();
+        notificationBox.classList.add('fade-out');
+        notificationBox.addEventListener('animationend', () => {
+            notificationBox.remove();
+            activeNotifications.shift();
         });
-    }, 3000);
+    }, 5000);
 
-    return notification;
+    return notificationBox;
 }
