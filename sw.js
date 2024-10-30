@@ -1,15 +1,10 @@
-import { precaching } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+self.addEventListener('install', (event) => {
+  console.log('Service Worker installing...');
+});
 
-precaching.precacheAndRoute(self.__WB_MANIFEST);
-
-registerRoute(
-  ({ url }) => url.href.startsWith(self.location.origin + '/documents'),
-  new StaleWhileRevalidate({
-    cacheName: 'documents-cache',
-  })
-);
+self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
+});
 
 self.addEventListener('fetch', (event) => {
   console.log(`Fetching: ${event.request.url}`);
