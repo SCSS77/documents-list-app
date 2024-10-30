@@ -158,6 +158,12 @@ h1, h2, h3, h4 {
       color: $secondary-color;
     }
 
+    .document-date {
+      font-size: .875rem;
+      font-weight: 400;
+      color: $gray;
+    }
+
     .document-contributors,
     .document-attachments {
       flex: 1;

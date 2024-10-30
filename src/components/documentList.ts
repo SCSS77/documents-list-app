@@ -1,4 +1,5 @@
 import { Document } from '../models/document';
+import { formatDateRelative } from '../utils/dateUtils';
 
 export function renderDocumentList(
     documents: Document[],
@@ -115,6 +116,10 @@ export function renderDocumentList(
         versionText.classList.add('document-version');
         versionText.textContent = `Version: ${doc.Version}`;
 
+        const dateText = document.createElement('div');
+        dateText.classList.add('document-date');
+        dateText.textContent = formatDateRelative(doc.CreatedAt);
+
         const contributors = document.createElement('div');
         contributors.classList.add('document-contributors');
         contributors.innerHTML = doc.Contributors.map((c) => `<div>${c.Name}</div>`).join('');
@@ -125,6 +130,7 @@ export function renderDocumentList(
 
         nameContainer.appendChild(title);
         nameContainer.appendChild(versionText);
+        nameContainer.appendChild(dateText);
         card.appendChild(nameContainer);
         card.appendChild(contributors);
         card.appendChild(attachments);
