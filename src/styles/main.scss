@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+// Vars
+$primary-color: #2F3A4C;
+$secondary-color: #555;
+$background-color: #EDEFF3;
+$text-color: #333;
+$highlight-color: #2E5BFF;
+$highlight-color-hover: #0056b3;
+$border-color: #D9E2EF;
+$gray: #999;
+$gray-light: #EEE;
+$gray2: #F4F5F7;
+$gray3: #DDD;
+$gray4: #E9ECEF;
+$white: #FFF;
+
+body {
+  background-color: $background-color;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: $text-color;
+}
+
+#app {
+  max-width: 960px !important;
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+}
+
+// General
+.page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: $primary-color;
+  text-align: left;
+}
+
+.header-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.document-header {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  padding: 0 1.5rem .5rem;
+}
+
+.column-header {
+  flex: 1;
+  text-align: left;
+  color: $gray;
+  font-size: .9rem;
+}
+
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+// Filters
+.sort-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sort-by {
+  font-size: .875rem;
+}
+
+.custom-select {
+  position: relative;
+  font-size: .875rem;
+  color: $highlight-color;
+  cursor: pointer;
+
+  .selected-option {
+    padding: 0 30px 0 10px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232E5BFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right .7em top 50%;
+    background-size: .65em auto;
+
+    &:hover {
+      color: $highlight-color-hover;
+    }
+  }
+
+  .options {
+    display: none;
+    padding: 5px 0;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    min-width: 150px;
+    right: 0;
+    background-color: $white;
+    border: 1px solid $gray3;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+
+    .option {
+      padding: 5px 10px;
+      color: $text-color;
+
+      &:hover {
+        background-color: $gray4;
+      }
+    }
+  }
+
+  &.open .options {
+    display: block;
+  }
+}
+
+// Documents List
+.document-list {
+  text-align: left;
+  width: 100%;
+
+  .document-item {
+    background-color: $white;
+    min-height: 85px;
+    padding: 1.5rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+
+    .document-name-version {
+      font-size: 1rem;
+      font-weight: 600;
+      flex: 1;
+      color: $primary-color;
+
+      .document-name {
+        width: 80%;
+      }
+    }
+
+    .document-version {
+      font-size: .875rem;
+      font-weight: 400;
+      color: $secondary-color;
+    }
+
+    .document-contributors,
+    .document-attachments {
+      flex: 1;
+      font-size: .875rem;
+      color: $secondary-color;
+      line-height: 1.5;
+    }
+  }
+
+  + form {
+    margin-bottom: 2rem;
+  }
+}
+
+// Button
+.add-document-btn {
+  background: $gray2;
+  display: block;
+  margin: 1rem auto;
+  color: $highlight-color;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 1.5rem;
+  font-size: 1rem;
+  width: 100%;
+
+  &:hover {
+    background: $gray3;
+    color: $highlight-color-hover;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.input-container.hidden {
+  display: none;
+}
