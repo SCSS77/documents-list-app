@@ -40,7 +40,11 @@ export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: Docu
             Attachments: [],
             CreatedAt: new Date().toISOString()
         };
-        setDocuments((currentDocs) => [...(currentDocs || []), newDoc]);
+        setDocuments((currentDocs) => {
+            const updatedDocs = [...(currentDocs || []), newDoc];
+            localStorage.setItem('documents', JSON.stringify(updatedDocs));
+            return updatedDocs;
+        });
         input.value = '';
         inputContainer.classList.add('hidden');
         addButton.classList.remove('hidden');
