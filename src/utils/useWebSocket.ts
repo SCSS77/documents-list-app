@@ -5,7 +5,7 @@ export const fetchDocuments = async (): Promise<any[]> => {
     return response.json();
 };
 
-const debounce = (func: Function, delay: number) => {
+export const debounce = (func: Function, delay: number) => {
     let timeoutId: ReturnType<typeof setTimeout>;
     return (...args: any[]) => {
         if (timeoutId) {
@@ -17,13 +17,13 @@ const debounce = (func: Function, delay: number) => {
     };
 };
 
-export const useWebSocket = (url: string, onMessage: (data: any) => void): (() => void) => {
+export const useWebSocket = (url: string, onMessage: (data: any) => void, debounceDelay: number = 500): (() => void) => {
     const socket = new WebSocket(url);
 
     const debouncedOnMessage = debounce((event: MessageEvent) => {
         const data = JSON.parse(event.data);
         onMessage(data);
-    }, 500);
+    }, debounceDelay);
 
     socket.onmessage = debouncedOnMessage;
 
