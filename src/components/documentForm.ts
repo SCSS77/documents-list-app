@@ -43,7 +43,7 @@ export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: Docu
         };
 
         setDocuments((currentDocs) => {
-            return [...currentDocs, newDoc];
+            return [newDoc, ...currentDocs];
         });
 
         input.value = '';
