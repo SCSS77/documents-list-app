@@ -110,11 +110,11 @@ export function renderDocumentList(
 
         const title = document.createElement('div');
         title.classList.add('document-name');
-        title.textContent = doc.Title;
+        title.textContent = doc.Title || 'Untitled';
 
         const versionText = document.createElement('div');
         versionText.classList.add('document-version');
-        versionText.textContent = `Version: ${doc.Version}`;
+        versionText.textContent = `Version: ${doc.Version !== undefined ? doc.Version : 'N/A'}`;
 
         const dateText = document.createElement('div');
         dateText.classList.add('document-date');
@@ -122,11 +122,15 @@ export function renderDocumentList(
 
         const contributors = document.createElement('div');
         contributors.classList.add('document-contributors');
-        contributors.innerHTML = doc.Contributors.map((c) => `<div>${c.Name}</div>`).join('');
+        contributors.innerHTML = (doc.Contributors && doc.Contributors.length > 0)
+            ? doc.Contributors.map((c) => `<div>${c.Name}</div>`).join('')
+            : '<div>No contributors</div>';
 
         const attachments = document.createElement('div');
         attachments.classList.add('document-attachments');
-        attachments.innerHTML = doc.Attachments.map((a) => `<div>${a}</div>`).join('');
+        attachments.innerHTML = (doc.Attachments && doc.Attachments.length > 0)
+            ? doc.Attachments.map((a) => `<div>${a}</div>`).join('')
+            : '<div>No attachments</div>';
 
         nameContainer.appendChild(title);
         nameContainer.appendChild(versionText);

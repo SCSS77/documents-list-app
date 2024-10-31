@@ -12,7 +12,7 @@ export async function renderApp(): Promise<HTMLElement> {
 
     const documents = [
         ...apiDocuments,
-        ...localDocuments.filter(localDoc => 
+        ...localDocuments.filter(localDoc =>
             !apiDocuments.some(apiDoc => apiDoc.ID === localDoc.ID)
         )
     ];
@@ -27,8 +27,12 @@ export async function renderApp(): Promise<HTMLElement> {
 
     const sortDocuments = (criteria: 'Title' | 'Version' | 'CreatedAt') => {
         documents.sort((a, b) => {
-            if (criteria === 'Title') return a.Title.localeCompare(b.Title);
-            if (criteria === 'Version') return parseFloat(a.Version) - parseFloat(b.Version);
+            if (criteria === 'Title') {
+                const titleA = a.Title || '';
+                const titleB = b.Title || '';
+                return titleA.localeCompare(titleB);
+            }
+            if (criteria === 'Version') return (parseFloat(a.Version) || 0) - (parseFloat(b.Version) || 0);
             if (criteria === 'CreatedAt') return new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime();
             return 0;
         });
@@ -43,8 +47,6 @@ export async function renderApp(): Promise<HTMLElement> {
 
     const form = renderDocumentForm((updateFunc) => {
         const newDocs = updateFunc(documents);
-        console.log("Documents after addition:", newDocs);
-
         documents.length = 0;
         documents.push(...newDocs);
 
@@ -57,7 +59,7 @@ export async function renderApp(): Promise<HTMLElement> {
         const newDoc = newDocs[newDocs.length - 1];
         showNotification(`Document added: <br>${newDoc.Title} by Current User`, 'success');
     }, 'Current User');
-    
+
     appDiv.appendChild(form);
 
     const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
