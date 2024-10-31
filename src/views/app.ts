@@ -7,7 +7,17 @@ import { Document } from '../models/document';
 import { saveDocumentsToLocalStorage, getDocumentsFromLocalStorage } from '../utils/localStorage';
 
 export async function renderApp(): Promise<HTMLElement> {
-    let documents: Document[] = await fetchDocuments();
+    const localDocuments = getDocumentsFromLocalStorage() || [];
+    const apiDocuments = await fetchDocuments() || [];
+
+    const documents = [
+        ...apiDocuments,
+        ...localDocuments.filter(localDoc => 
+            !apiDocuments.some(apiDoc => apiDoc.ID === localDoc.ID)
+        )
+    ];
+
+    saveDocumentsToLocalStorage(documents);
 
     const appDiv = document.createElement('div');
     const title = document.createElement('h1');
@@ -16,31 +26,38 @@ export async function renderApp(): Promise<HTMLElement> {
     appDiv.appendChild(title);
 
     const sortDocuments = (criteria: 'Title' | 'Version' | 'CreatedAt') => {
-        documents = documents.slice().sort((a, b) => {
+        documents.sort((a, b) => {
             if (criteria === 'Title') return a.Title.localeCompare(b.Title);
             if (criteria === 'Version') return parseFloat(a.Version) - parseFloat(b.Version);
-            if (criteria === 'CreatedAt') return new Date(a.CreatedAt).getTime() - new Date(b.CreatedAt).getTime();
+            if (criteria === 'CreatedAt') return new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime();
             return 0;
         });
 
-        const newList = renderDocumentList(documents, sortDocuments);
+        const newList = renderDocumentList(documents.slice(0, 10), sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
     };
 
-    let list = renderDocumentList(documents, sortDocuments);
+    let list = renderDocumentList(documents.slice(0, 10), sortDocuments);
     appDiv.appendChild(list);
 
     const form = renderDocumentForm((updateFunc) => {
-        const newDocument = updateFunc(documents);
-        documents = newDocument;
+        const newDocs = updateFunc(documents);
+        console.log("Documents after addition:", newDocs);
 
-        const newList = renderDocumentList(documents, sortDocuments);
+        documents.length = 0;
+        documents.push(...newDocs);
+
+        saveDocumentsToLocalStorage(documents);
+
+        const newList = renderDocumentList(documents.slice(0, 10), sortDocuments);
         appDiv.replaceChild(newList, list);
         list = newList;
 
-        showNotification(`Document added: <br>${documents[documents.length - 1].Title} by Current User`, 'success');
+        const newDoc = newDocs[newDocs.length - 1];
+        showNotification(`Document added: <br>${newDoc.Title} by Current User`, 'success');
     }, 'Current User');
+    
     appDiv.appendChild(form);
 
     const closeWebSocket = useWebSocket('ws://localhost:8080/notifications', (data) => {
