@@ -1,4 +1,3 @@
-// notification.ts
 class Notification {
     private notificationCount: number = 0;
     private readonly maxNotifications: number;
