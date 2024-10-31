@@ -25,6 +25,20 @@ export async function renderApp(): Promise<HTMLElement> {
     title.textContent = 'Documents';
     appDiv.appendChild(title);
 
+    const compareVersions = (versionA: string, versionB: string): number => {
+        const segmentsA = versionA.split('.').map(Number);
+        const segmentsB = versionB.split('.').map(Number);
+
+        for (let i = 0; i < Math.max(segmentsA.length, segmentsB.length); i++) {
+            const numA = segmentsA[i] || 0;
+            const numB = segmentsB[i] || 0;
+            if (numA !== numB) {
+                return numA - numB;
+            }
+        }
+        return 0;
+    };
+
     const sortDocuments = (criteria: 'Title' | 'Version' | 'CreatedAt') => {
         documents.sort((a, b) => {
             if (criteria === 'Title') {
@@ -32,8 +46,12 @@ export async function renderApp(): Promise<HTMLElement> {
                 const titleB = b.Title || '';
                 return titleA.localeCompare(titleB);
             }
-            if (criteria === 'Version') return (parseFloat(a.Version) || 0) - (parseFloat(b.Version) || 0);
-            if (criteria === 'CreatedAt') return new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime();
+            if (criteria === 'Version') {
+                return compareVersions(a.Version || '0.0', b.Version || '0.0');
+            }
+            if (criteria === 'CreatedAt') {
+                return new Date(b.CreatedAt).getTime() - new Date(a.CreatedAt).getTime();
+            }
             return 0;
         });
 
