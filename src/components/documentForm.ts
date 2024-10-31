@@ -1,4 +1,5 @@
 import { Document } from '../models/document';
+import { showNotification } from '../components/notification';
 
 export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: Document[]) => Document[]) => void, currentUserName: string): HTMLElement {
     const form = document.createElement('form');
@@ -43,7 +44,9 @@ export function renderDocumentForm(setDocuments: (updateFunc: (currentDocs: Docu
         };
 
         setDocuments((currentDocs) => {
-            return [newDoc, ...currentDocs];
+            const updatedDocs = [newDoc, ...currentDocs];
+            showNotification(`Document added: <br>${newDoc.Title} by ${currentUserName}`, 'success');
+            return updatedDocs;
         });
 
         input.value = '';
